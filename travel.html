@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOKYO - A City of Contrasts</title>
+<style>
+/* 全域與平滑滾動設定 */
+html {
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+font-family: 'Times New Roman', Times, serif;
+background-color: #ffffff;
+color: #111;
+}
+
+/* 頂部導覽列（固定在頂端並預留滾動偏移量） */
+.topbar {
+position: sticky;
+top: 0;
+background-color: #ffffff;
+border-bottom: 1px solid #eaeaea;
+padding: 20px 40px;
+z-index: 1000;
+}
+
+.topbar .page {
+display: flex;
+align-items: center;
+justify-content: space-between;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.brand {
+font-size: 20px;
+font-weight: bold;
+letter-spacing: 2px;
+color: #000;
+text-decoration: none;
+}
+
+.nav {
+display: flex;
+gap: 30px;
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+.nav li a {
+text-decoration: none;
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+color: #333;
+text-transform: uppercase;
+font-weight: 600;
+}
+
+.nav li a:hover {
+color: #888;
+}
+
+/* Hero 主視覺區塊 */
+.hero {
+position: relative;
+height: 550px;
+background-image: url("https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1400&q=80");
+background-size: cover;
+background-position: center;
+display: flex;
+align-items: center;
+}
+
+/* 左側暗色漸層遮罩：左邊較深、往右逐漸變透明 */
+.hero-overlay {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+background: linear-gradient(
+to right,
+rgba(0, 0, 0, 0.75) 0%,
+rgba(0, 0, 0, 0.4) 40%,
+rgba(0, 0, 0, 0.1) 70%,
+transparent 100%
+);
+}
+
+/* Hero 文字內容 */
+.hero-content {
+position: relative;
+color: white;
+padding-left: 80px;
+max-width: 550px;
+z-index: 2;
+}
+
+.hero-content .subtitle {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 15px;
+opacity: 0.85;
+}
+
+.hero-content h1 {
+font-size: 56px;
+line-height: 1.1;
+margin: 0 0 20px 0;
+font-weight: normal;
+}
+
+.hero-content p {
+font-size: 14px;
+font-family: sans-serif;
+line-height: 1.6;
+opacity: 0.9;
+margin: 0;
+}
+
+/* 區塊通用樣式與滾動補償 */
+.content-section {
+max-width: 1100px;
+margin: 0 auto;
+padding: 80px 40px;
+scroll-margin-top: 80px;
+}
+
+.section-tag {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+color: #b25d5d;
+text-transform: uppercase;
+font-weight: bold;
+margin-bottom: 12px;
+}
+
+.content-section h2 {
+font-size: 42px;
+font-weight: normal;
+margin-top: 0;
+margin-bottom: 20px;
+}
+
+/* 雙欄排版 (Discover) */
+.grid-container {
+display: flex;
+gap: 60px;
+align-items: flex-start;
+margin-top: 30px;
+}
+
+.text-column {
+flex: 1;
+}
+
+.text-column h4 {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: #111;
+margin-top: 0;
+margin-bottom: 20px;
+}
+
+.text-column p {
+font-size: 15px;
+font-family: sans-serif;
+line-height: 1.8;
+color: #444;
+margin-bottom: 20px;
+}
+
+.text-column .quote {
+font-style: italic;
+color: #666;
+margin-top: 25px;
+}
+
+.image-column {
+flex: 1.2;
+}
+
+.image-column img {
+width: 100%;
+height: auto;
+border-radius: 4px;
+display: block;
+}
+
+/* Neighborhoods 區塊排版 */
+.closer-container {
+display: flex;
+gap: 60px;
+align-items: center;
+margin-top: 30px;
+}
+
+.closer-image {
+flex: 1.2;
+}
+
+.closer-image img {
+width: 100%;
+height: auto;
+border-radius: 6px;
+display: block;
+}
+
+.closer-text {
+flex: 1;
+}
+
+.closer-text h4 {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: #111;
+margin-top: 0;
+margin-bottom: 20px;
+}
+
+.closer-text p {
+font-size: 15px;
+font-family: sans-serif;
+line-height: 1.8;
+color: #444;
+margin-bottom: 20px;
+}
+
+/* Gallery 區塊排版 */
+.journal-header {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+margin-bottom: 30px;
+}
+
+.journal-hint {
+font-size: 12px;
+font-family: sans-serif;
+color: #777;
+margin-bottom: 15px;
+}
+
+.frames-container {
+display: flex;
+gap: 30px;
+justify-content: space-between;
+}
+
+.frame-card {
+position: relative;
+width: 320px;
+height: 380px;
+border-radius: 8px;
+overflow: hidden;
+cursor: pointer;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.frame-card img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+transition: transform 0.4s ease;
+}
+
+.frame-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(185, 104, 199, 0.85);
+opacity: 0;
+transition: opacity 0.4s ease-in-out;
+display: flex;
+justify-content: center;
+align-items: flex-end;
+padding-bottom: 50px;
+}
+
+.frame-title {
+color: #ffffff;
+font-size: 24px;
+font-weight: bold;
+letter-spacing: 1.5px;
+font-family: sans-serif;
+text-transform: uppercase;
+}
+
+.frame-card:hover .frame-overlay,
+.frame-card.active .frame-overlay {
+opacity: 1;
+}
+
+.frame-card:hover img,
+.frame-card.active img {
+transform: scale(1.05);
+}
+
+.journal-footer-hint {
+font-size: 12px;
+font-family: sans-serif;
+color: #777;
+margin-top: 15px;
+}
+
+/* Planner & Budget 表格樣式 */
+.planner-desc {
+font-size: 14px;
+font-family: sans-serif;
+color: #555;
+margin-bottom: 30px;
+}
+
+.styled-table {
+width: 100%;
+border-collapse: collapse;
+font-family: sans-serif;
+font-size: 14px;
+background-color: #f4f2ef;
+margin-bottom: 50px;
+border-radius: 4px;
+overflow: hidden;
+}
+
+.styled-table th {
+background-color: #3b3b3b;
+color: #ffffff;
+text-align: left;
+padding: 16px 20px;
+font-weight: normal;
+font-size: 12px;
+letter-spacing: 1px;
+text-transform: uppercase;
+}
+
+.styled-table td {
+padding: 18px 20px;
+border-bottom: 1px solid #e2ded8;
+color: #333;
+}
+
+.styled-table tr:last-child td {
+border-bottom: none;
+}
+
+.highlight-row {
+background-color: #e8dcd6;
+}
+</style>
+</head>
+<body id="top">
+
+<!-- 頂部導覽列：點擊可平滑滾動到對應區塊 -->
+<header class="topbar">
+<div class="page">
+<a class="brand" href="#top">TOKYO.</a>
+<ul class="nav">
+<li><a href="#discover">Discover</a></li>
+<li><a href="#neighborhoods">Neighborhoods</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#planner">Planner</a></li>
+</ul>
+</div>
+</header>
+
+<!-- 主視覺 Hero 區塊（左側已加上漸層暗色遮罩） -->
+<section class="hero">
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<div class="subtitle">A Visual Journey Through Japan</div>
+<h1>A City of Contrasts.</h1>
+<p>Quiet temples, electric streets, and little moments in between. Discover a different side of Tokyo.</p>
+</div>
+</section>
+
+<!-- 1. Discover 區塊 -->
+<section id="discover" class="content-section">
+<div class="section-tag">01 / DISCOVER</div>
+<h2>Where tradition meets tomorrow.</h2>
+<div class="grid-container">
+<div class="text-column">
+<h4>More than a destination</h4>
+<p>Tokyo is a city that never stops surprising you. One moment, you are surrounded by bright signs and busy crossings. A few streets away, you might discover a quiet shrine hidden between modern buildings.</p>
+<p>What makes Tokyo special is the way old and new exist side by side. Every neighborhood has its own rhythm, atmosphere, and story to tell.</p>
+<p class="quote">"The best way to explore Tokyo is to get a little lost."</p>
+</div>
+<div class="image-column">
+<img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=80" alt="Tokyo Neon Street">
+</div>
+</div>
+</section>
+
+<!-- 2. Neighborhoods 區塊 -->
+<section id="neighborhoods" class="content-section">
+<h2>Slow down. Look closer.</h2>
+<div class="closer-container">
+<div class="closer-image">
+<img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" alt="Kyoto/Tokyo Traditional Street">
+</div>
+<div class="closer-text">
+<h4>The Quieter Side</h4>
+<p>Beyond the crowded stations and famous landmarks, Tokyo is full of peaceful corners. Small cafés, traditional shops, and narrow streets invite visitors to take their time.</p>
+<p>Spend an afternoon walking without a strict plan. Notice the details: wooden doors, warm lanterns, tiny gardens, and the everyday life happening all around you.</p>
+<p>Sometimes the most memorable places are the ones you never planned to visit.</p>
+</div>
+</div>
+</section>
+
+<!-- 3. Gallery 區塊 -->
+<section id="gallery" class="content-section">
+<div class="journal-header">
+<div>
+<div class="section-tag">03 / PHOTO JOURNAL</div>
+<h2 style="margin: 0;">Tokyo in three frames.</h2>
+</div>
+<div class="journal-hint">Move your mouse or tap each photograph to reveal the story.</div>
+</div>
+<div class="frames-container">
+<!-- Shinjuku -->
+<div class="frame-card" onclick="this.classList.toggle('active')">
+<img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=600&q=80" alt="Shinjuku">
+<div class="frame-overlay">
+<span class="frame-title">Shinjuku</span>
+</div>
+</div>
+<!-- Shibuya -->
+<div class="frame-card" onclick="this.classList.toggle('active')">
+<img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80" alt="Shibuya">
+<div class="frame-overlay">
+<span class="frame-title">Shibuya</span>
+</div>
+</div>
+<!-- Asakusa -->
+<div class="frame-card" onclick="this.classList.toggle('active')">
+<img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80" alt="Asakusa">
+<div class="frame-overlay">
+<span class="frame-title">Asakusa</span>
+</div>
+</div>
+</div>
+<div class="journal-footer-hint">Hover or tap a photo to see the fade-in overlay effect</div>
+</section>
+
+<!-- 4. Planner & Budget 區塊 -->
+<section id="planner" class="content-section">
+<div class="section-tag">03 / TRAVEL PLANNER</div>
+<h2>Three Days in Tokyo.</h2>
+<p class="planner-desc">Plan your mornings, afternoons, and evenings with this simple three-day itinerary.</p>
+
+<!-- 行程表格 -->
+<table class="styled-table">
+<thead>
+<tr>
+<th style="width: 15%;">Day</th>
+<th style="width: 35%;">Morning</th>
+<th style="width: 35%;">Afternoon</th>
+<th style="width: 15%;">Evening</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1</td>
+<td>Asakusa Temple</td>
+<td>Ueno Park</td>
+<td>Shibuya</td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td>Meiji Shrine</td>
+<td>Harajuku</td>
+<td>Shinjuku</td>
+</tr>
+<tr class="highlight-row">
+<td>Day 3</td>
+<td colspan="2" style="text-align: center; color: #b25d5d; font-weight: bold;">Tokyo DisneySea</td>
+<td>Odaiba</td>
+</tr>
+</tbody>
+</table>
+
+<h2 style="margin-top: 60px;">Travel Budget</h2>
+<p class="planner-desc">A sample budget for transportation and meals in Tokyo.</p>
+
+<!-- 預算表格 -->
+<table class="styled-table">
+<thead>
+<tr>
+<th style="width: 30%;">Category</th>
+<th style="width: 50%;">Item</th>
+<th style="width: 20%;">Estimated Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="2" style="vertical-align: middle; font-weight: bold;">Transportation</td>
+<td>Metro</td>
+<td>¥1,000</td>
+</tr>
+<tr>
+<td>Train</td>
+<td>¥1,500</td>
+</tr>
+<tr>
+<td rowspan="2" style="vertical-align: middle; font-weight: bold;">Food</td>
+<td>Lunch</td>
+<td>¥1,200</td>
+</tr>
+<tr>
+<td>Dinner</td>
+<td>¥2,000</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+</body>
+</html>
+
