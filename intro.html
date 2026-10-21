@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio - Personal Profile</title>
+<style>
+/* 全域與平滑滾動設定 */
+html {
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+font-family: 'Times New Roman', Times, serif;
+background-color: #ffffff;
+color: #111;
+}
+
+/* 頂部導覽列（固定在頂端並預留滾動偏移量） */
+.topbar {
+position: sticky;
+top: 0;
+background-color: #ffffff;
+border-bottom: 1px solid #eaeaea;
+padding: 20px 40px;
+z-index: 1000;
+}
+
+.topbar .page {
+display: flex;
+align-items: center;
+justify-content: space-between;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.brand {
+font-size: 20px;
+font-weight: bold;
+letter-spacing: 2px;
+color: #000;
+text-decoration: none;
+}
+
+.nav {
+display: flex;
+gap: 30px;
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+.nav li a {
+text-decoration: none;
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+color: #333;
+text-transform: uppercase;
+font-weight: 600;
+}
+
+.nav li a:hover {
+color: #b25d5d;
+}
+
+/* Hero 主視覺區塊 */
+.hero {
+position: relative;
+height: 550px;
+background-image: url("https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1400&q=80");
+background-size: cover;
+background-position: center;
+display: flex;
+align-items: center;
+}
+
+/* 左側暗色漸層遮罩：左邊較深、往右逐漸變透明 */
+.hero-overlay {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+background: linear-gradient(
+to right,
+rgba(0, 0, 0, 0.75) 0%,
+rgba(0, 0, 0, 0.4) 40%,
+rgba(0, 0, 0, 0.1) 70%,
+transparent 100%
+);
+}
+
+/* Hero 文字內容 */
+.hero-content {
+position: relative;
+color: white;
+padding-left: 80px;
+max-width: 550px;
+z-index: 2;
+}
+
+.hero-content .subtitle {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 15px;
+opacity: 0.85;
+}
+
+.hero-content h1 {
+font-size: 56px;
+line-height: 1.1;
+margin: 0 0 20px 0;
+font-weight: normal;
+}
+
+.hero-content p {
+font-size: 14px;
+font-family: sans-serif;
+line-height: 1.6;
+opacity: 0.9;
+margin: 0;
+}
+
+/* 區塊通用樣式與滾動補償 */
+.content-section {
+max-width: 1100px;
+margin: 0 auto;
+padding: 80px 40px;
+scroll-margin-top: 80px;
+}
+
+.section-tag {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+color: #b25d5d;
+text-transform: uppercase;
+font-weight: bold;
+margin-bottom: 12px;
+}
+
+.content-section h2 {
+font-size: 42px;
+font-weight: normal;
+margin-top: 0;
+margin-bottom: 20px;
+}
+
+/* 雙欄排版 (About Me / Discover) */
+.grid-container {
+display: flex;
+gap: 60px;
+align-items: flex-start;
+margin-top: 30px;
+}
+
+.text-column {
+flex: 1;
+}
+
+.text-column h4 {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: #111;
+margin-top: 0;
+margin-bottom: 20px;
+}
+
+.text-column p {
+font-size: 15px;
+font-family: sans-serif;
+line-height: 1.8;
+color: #444;
+margin-bottom: 20px;
+}
+
+.text-column .quote {
+font-style: italic;
+color: #666;
+margin-top: 25px;
+}
+
+.image-column {
+flex: 1.2;
+}
+
+.image-column img {
+width: 100%;
+height: auto;
+border-radius: 4px;
+display: block;
+}
+
+/* Skills 區塊排版 */
+.closer-container {
+display: flex;
+gap: 60px;
+align-items: center;
+margin-top: 30px;
+}
+
+.closer-image {
+flex: 1.2;
+}
+
+.closer-image img {
+width: 100%;
+height: auto;
+border-radius: 6px;
+display: block;
+}
+
+.closer-text {
+flex: 1;
+}
+
+.closer-text h4 {
+font-size: 11px;
+font-family: sans-serif;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: #111;
+margin-top: 0;
+margin-bottom: 20px;
+}
+
+.closer-text p {
+font-size: 15px;
+font-family: sans-serif;
+line-height: 1.8;
+color: #444;
+margin-bottom: 20px;
+}
+
+/* Projects 區塊排版 */
+.journal-header {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+margin-bottom: 30px;
+}
+
+.journal-hint {
+font-size: 12px;
+font-family: sans-serif;
+color: #777;
+margin-bottom: 15px;
+}
+
+.frames-container {
+display: flex;
+gap: 30px;
+justify-content: space-between;
+}
+
+.frame-card {
+position: relative;
+width: 320px;
+height: 380px;
+border-radius: 8px;
+overflow: hidden;
+cursor: pointer;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.frame-card img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+transition: transform 0.4s ease;
+}
+
+.frame-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(185, 104, 199, 0.85);
+opacity: 0;
+transition: opacity 0.4s ease-in-out;
+display: flex;
+justify-content: center;
+align-items: flex-end;
+padding-bottom: 50px;
+}
+
+.frame-title {
+color: #ffffff;
+font-size: 24px;
+font-weight: bold;
+letter-spacing: 1.5px;
+font-family: sans-serif;
+text-transform: uppercase;
+}
+
+.frame-card:hover .frame-overlay,
+.frame-card.active .frame-overlay {
+opacity: 1;
+}
+
+.frame-card:hover img,
+.frame-card.active img {
+transform: scale(1.05);
+}
+
+.journal-footer-hint {
+font-size: 12px;
+font-family: sans-serif;
+color: #777;
+margin-top: 15px;
+}
+
+/* Schedule 表格樣式 */
+.planner-desc {
+font-size: 14px;
+font-family: sans-serif;
+color: #555;
+margin-bottom: 30px;
+}
+
+.styled-table {
+width: 100%;
+border-collapse: collapse;
+font-family: sans-serif;
+font-size: 14px;
+background-color: #f4f2ef;
+margin-bottom: 50px;
+border-radius: 4px;
+overflow: hidden;
+}
+
+.styled-table th {
+background-color: #3b3b3b;
+color: #ffffff;
+text-align: left;
+padding: 16px 20px;
+font-weight: normal;
+font-size: 12px;
+letter-spacing: 1px;
+text-transform: uppercase;
+}
+
+.styled-table td {
+padding: 18px 20px;
+border-bottom: 1px solid #e2ded8;
+color: #333;
+}
+
+.styled-table tr:last-child td {
+border-bottom: none;
+}
+
+.highlight-row {
+background-color: #e8dcd6;
+}
+</style>
+</head>
+<body id="top">
+
+<!-- 頂部導覽列：點擊可平滑滾動到對應的自我介紹區塊 -->
+<header class="topbar">
+<div class="page">
+<a class="brand" href="#top">PORTFOLIO.</a>
+<ul class="nav">
+<li><a href="#about">About Me</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#schedule">Schedule</a></li>
+</ul>
+</div>
+</header>
+
+<!-- 主視覺 Hero 區塊（左側暗色漸層遮罩） -->
+<section class="hero">
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<div class="subtitle">Computer Science Student & Developer</div>
+<h1>Building the Future.</h1>
+<p>Passionate about web development, computer architecture, and solving complex technical challenges with code.</p>
+</div>
+</section>
+
+<!-- 1. About Me 區塊 (原 Discover) -->
+<section id="about" class="content-section">
+<div class="section-tag">01 / ABOUT ME</div>
+<h2>Passionate about code & innovation.</h2>
+<div class="grid-container">
+<div class="text-column">
+<h4>Background & Passion</h4>
+<p>I am a dedicated student pursuing computer science, exploring everything from low-level MIPS assembly systems to modern front-end web design. I enjoy turning abstract logic into intuitive, responsive digital experiences.</p>
+<p>Every project is an opportunity to learn, optimize, and refine my problem-solving skills across different technology stacks.</p>
+<p class="quote">"Simplicity is the soul of efficiency."</p>
+</div>
+<div class="image-column">
+<img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=80" alt="Coding Workspace">
+</div>
+</div>
+</section>
+
+<!-- 2. Skills 區塊 (原 Neighborhoods) -->
+<section id="skills" class="content-section">
+<h2>Technical Expertise & Focus.</h2>
+<div class="closer-container">
+<div class="closer-image">
+<img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" alt="Tech Stack">
+</div>
+<div class="closer-text">
+<h4>Core Capabilities</h4>
+<p>Equipped with a solid foundation in computer organization, data structures, and object-oriented programming using C++. I focus on writing clean, maintainable code.</p>
+<p>On the web development side, I specialize in crafting responsive layouts with HTML and CSS Flexbox, ensuring seamless user experiences across various devices.</p>
+<p>Always eager to explore emerging security frameworks and data mining algorithms.</p>
+</div>
+</div>
+</section>
+
+<!-- 3. Projects 區塊 (原 Gallery) -->
+<section id="projects" class="content-section">
+<div class="journal-header">
+<div>
+<div class="section-tag">03 / PROJECTS</div>
+<h2 style="margin: 0;">Featured Work.</h2>
+</div>
+<div class="journal-hint">Move your mouse or tap each card to view details.</div>
+</div>
+<div class="frames-container">
+<!-- Project 1 -->
+<div class="frame-card" onclick="this.classList.toggle('active')">
+<img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=600&q=80" alt="Web Layout">
+<div class="frame-overlay">
+<span class="frame-title">Web Design</span>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="frame-card" onclick="this.classList.toggle('active')">
+<img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80" alt="MIPS Lab">
+<div class="frame-overlay">
+<span class="frame-title">MIPS Lab</span>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="frame-card" onclick="this.classList.toggle('active')">
+<img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80" alt="Security Tool">
+<div class="frame-overlay">
+<span class="frame-title">Sec Tool</span>
+</div>
+</div>
+</div>
+<div class="journal-footer-hint">Hover or tap a card to see project overlay</div>
+</section>
+
+<!-- 4. Schedule 區塊 (原 Planner / Profile 課表) -->
+<section id="schedule" class="content-section">
+<div class="section-tag">04 / WEEKLY SCHEDULE</div>
+<h2>Routine & Academic Timeline.</h2>
+<p class="planner-desc">A structured overview of my weekly coursework, laboratory sessions, and development goals.</p>
+
+<!-- 個人每週時間表 (包含 rowspan 與 colspan 屬性) -->
+<table class="styled-table">
+<thead>
+<tr>
+<th style="width: 15%;">Time Slot</th>
+<th style="width: 20%;">Monday</th>
+<th style="width: 20%;">Tuesday</th>
+<th style="width: 25%;">Wednesday - Friday</th>
+<th style="width: 20%;">Weekend</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Morning</strong></td>
+<td>Computer Organization</td>
+<td>Data Mining</td>
+<td colspan="2" style="text-align: center; color: #111;">Web Frontend Development & Practice</td>
+</tr>
+<tr>
+<td><strong>Afternoon</strong></td>
+<td>Information Security</td>
+<td>Object-Oriented Programming (C++)</td>
+<td>MIPS Assembly Architecture Lab</td>
+<td rowspan="2" class="highlight-row" style="vertical-align: middle; text-align: center; font-weight: bold; color: #b25d5d;">
+Personal Projects & Studies
+</td>
+</tr>
+<tr>
+<td><strong>Evening</strong></td>
+<td colspan="3" style="text-align: center;">Algorithm Practice & Self-Improvement</td>
+</tr>
+</tbody>
+</table>
+</section>
+
+</body>
+</html>
